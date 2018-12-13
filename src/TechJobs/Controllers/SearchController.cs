@@ -28,16 +28,11 @@ namespace TechJobs.Controllers
         public IActionResult Results(SearchJobsViewModel jobsViewModel)
         {
             
-                if (jobsViewModel.Column.Equals(JobFieldType.All) || jobsViewModel.Value.Equals(""))
-                {
-                    jobsViewModel.Jobs = jobData.FindByValue(jobsViewModel.Value);
-                }
-                else
-                {
-                    jobsViewModel.Jobs = jobData.FindByColumnAndValue(jobsViewModel.Column, jobsViewModel.Value);
-                }
+                jobsViewModel.Jobs = jobsViewModel.Column.Equals(JobFieldType.All) || jobsViewModel.Value.Equals("")
+                    ? jobData.FindByValue(jobsViewModel.Value)
+                    : jobData.FindByColumnAndValue(jobsViewModel.Column, jobsViewModel.Value);
 
-                jobsViewModel.Title = "Search";
+            jobsViewModel.Title = "Search";
 
                 return View("Index", jobsViewModel);
            
